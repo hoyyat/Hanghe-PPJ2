@@ -9,8 +9,7 @@ const CustomInput = (props) => {
                 type="text"
             />
         </Container>
-        
-    )
+    );
 };
 
 const Container = styled.div`
