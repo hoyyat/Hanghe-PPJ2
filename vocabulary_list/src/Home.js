@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled, {Button}  from "styled-components";
 import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {db} from "./firebase"
+import { collection, getDoc, getDocs } from "firebase/firestore";
 //useSelector 데이터를 가져오는 훅, useDispatch는 데이터를 입력할 때
 
 // import WordCard from "./WordCard";
@@ -9,14 +11,20 @@ import FormPage from "./FormPage";
 import WordCard from "./WordCard";
 // import { useSelector } from "react-redux"
 
+function App() {
+    useEffect(()=> {
+        collection(db, "word")
+        const query = getDocs(collection(db, "word"));
+        console.log(query);
+    });
+};
 
 const Home = (props) => {
     // const history = useHistory();
     
     const word_list = useSelector((state) => state.word.list);
     // useSelector 안에는 (state): 스토어가 가지고있는 전체데이터, store: ()없으면 리턴되는 값, 을 넣어준다.
-
-
+    
     return (
         <div>
             {word_list.map((list, index) => {
@@ -24,22 +32,7 @@ const Home = (props) => {
                     <WordCard word_list={word_list} index={index}/>
                 );
             })}
-            {/* <Cards>
-                <p>단어</p>
-                <button onClick={ () => history.push("/FormPage")}>v</button>
-            </Cards>
-            <Cards>
-                <p>단어</p>
-                <button>v</button>
-            </Cards>
-            <Cards>
-                <p>단어</p>
-                <button>v</button>
-            </Cards>
-            <AddBtn>
-                <button>+</button>
-            </AddBtn> */}
-        </div>
+            </div>
     );
 }
 
@@ -66,7 +59,9 @@ const AddBtn = styled.div`
     position: fixed;
     bottom: 10px;
     right: 10px;
-    
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 `;
 
 export default Home;

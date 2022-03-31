@@ -3,15 +3,19 @@
 // getState()를 총해서 상태에 접근하고
 // dispatch(action)를 통해 상태를 수정할 수 있게 하고
 // subscribe를 통해 리스너를 등록한다.
+import thunk from "redux-thunk";
 
-import {createStore, combineReducers} from "redux";
+import {createStore, combineReducers, applyMiddleware} from "redux";
 //리듀서는 여러개 쓸 수 있는데 리듀서를 싹 묶은것에 + 옵션도 싹 묶어서 creatStore 에 넘겨주면 스토어가 만들어진다.
 import word from "./modules/words";
 
 const rootReducer = combineReducers({word});
+
+const middlewares = [thunk]
+const enhancer = applyMiddleware(...middlewares)
 // 지금은 리듀서가 하나지만 리듀서가 여러개일때 ({word, word2}) 이런식으로 해주면 된다.
 // 필요한 옵션들 있으면 여기서 엮는다.
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, enhancer);
 
 export default store;
 

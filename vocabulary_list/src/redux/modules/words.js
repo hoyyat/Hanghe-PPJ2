@@ -1,3 +1,5 @@
+import {collection, addDoc} from "firebase/firestore"
+import {db} from "../../firebase"
 // words.js
 
 // Actions
@@ -9,7 +11,7 @@ const CREATE = 'words/CREATE';
 // ---------------------------------------------------------------------------------
 //이니셜state 초기값
 const initialState = {
-    list: ["영화관 가기", "매일 책 읽기", "수영 배우기"],
+    list: ["영화관 가기", "매일 책 읽기", "수영 배우기","안녕"],
 };
 // *********************************************************************************
 
@@ -28,14 +30,19 @@ export function createword(word) {
 // *********************************************************************************
 
 
-// export function updateWidget(widget) {
-//   return { type: UPDATE, widget };
+// export function updateWidget(word) {
+//   return { type: UPDATE, word: word };
 // }
 
 // export function removeWidget(widget) {
 //   return { type: REMOVE, widget };
 // }
 
+export const createDictionary = (word) => {
+  return async function(dispatch) {
+    await addDoc(collection(db, "word"), word)
+  }
+}
 
 // ---------------------------------------------------------------------------------
 // Reducer : 새 데이터를 리턴해주는 곳
